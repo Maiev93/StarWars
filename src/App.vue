@@ -1,9 +1,9 @@
 <template>
   <v-app class="char">
-    <v-navigation-drawer class="char__nav" height="100px" width="300px">
+    <nav class="char__nav">
       <router-link class="char__link" to="/">Все персонажи </router-link>
       <router-link class="char__link" to="/Favorite">Любимые </router-link>
-    </v-navigation-drawer>
+    </nav>
 
     <v-main>
       <v-container fluid>
@@ -29,6 +29,9 @@ export default {
 <style scoped>
 .char__nav {
   margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 .char__link {
   text-decoration: none;
