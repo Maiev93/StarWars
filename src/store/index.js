@@ -5,28 +5,25 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    chars: null
+    baseUrl: 'https://swapi.dev/api',
+    favorites: []
   },
   getters: {
-    CHARS: state => {
-      return state.chars;
+    GET_URL: state => {
+      return state.baseUrl;
+    },
+    GET_FAVORITES: state => {
+      return state.favorites;
     },
   },
   mutations: {
-    SET_CHAR: (state, payload) => {
-      state.chars = payload;
+    SET_FAVORITES: (state, payload) => {
+      state.favorites = payload;
     },
   },
   actions: {
-    GET_CHAR (context) {
-    fetch('https://swapi.dev/api/people')
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      // console.log(data.results);
-      context.commit('SET_CHAR', data.results);
-    });
-  }
+    SET_FAVORITES (context, payload) {
+      context.commit('SET_FAVORITES', payload)
+    },
   },
 })
