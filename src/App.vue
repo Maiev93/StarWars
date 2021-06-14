@@ -1,8 +1,8 @@
 <template>
   <v-app class="char">
     <nav class="char__nav">
-      <router-link class="char__link" to="/">Все персонажи </router-link>
-      <router-link class="char__link" to="/Favorite">Любимые </router-link>
+      <router-link class="char__link" to="/">All Characters</router-link>
+      <router-link class="char__link" to="/Favorite">Favorite </router-link>
     </nav>
 
     <v-main>

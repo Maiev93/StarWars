@@ -1,7 +1,21 @@
 <template>
   <v-container>
     <v-row>
-      <v-col v-for="(char, index) in chars" :key="index" cols="2.5">
+      <v-col>
+<v-text-field
+            v-model="search"
+            clearable
+            flat
+            solo-inverted
+            hide-details
+            prepend-inner-icon="mdi-magnify"
+            label="Search"
+          ></v-text-field>
+      </v-col>
+    </v-row>
+    
+    <v-row>
+      <v-col v-for="(char, index) in filteredChars" :key="index" cols="2.5">
         <v-card class="card">
           <v-img
             :src="
@@ -41,7 +55,7 @@ export default {
   data() {
     return {
       chars: [],
-      // favorites: [],
+      search: '',
       page: 1,
       totalPages: null
     };
@@ -72,7 +86,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["GET_FAVORITES"])
+    ...mapGetters(["GET_FAVORITES"]),
+    filteredChars() {
+      return this.chars.filter(char => {
+        return char.name.toLowerCase().includes(this.search.toLowerCase())
+      })
+    }
   },
   created() {
     this.loadChars(this.page);
