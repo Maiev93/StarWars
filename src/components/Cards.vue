@@ -9,7 +9,7 @@
             solo-inverted
             hide-details
             prepend-inner-icon="mdi-magnify"
-            label="Search"
+            label="Search by name"
           ></v-text-field>
       </v-col>
     </v-row>
@@ -60,9 +60,6 @@ export default {
       totalPages: null
     };
   },
-  mounted() {
-    this.$store.dispatch("GET_CHAR");
-  },
   methods: {
     async loadChars(pageNumber) {
       this.chars = await fetch(
@@ -81,9 +78,11 @@ export default {
         });
     },
     toFavorites(char) {
-      this.GET_FAVORITES.push(char);
+      if(this.GET_FAVORITES.indexOf(char) === -1) {
+        this.GET_FAVORITES.push(char);
+      }      
       this.$store.dispatch("SET_FAVORITES", this.GET_FAVORITES);
-    }
+    },
   },
   computed: {
     ...mapGetters(["GET_FAVORITES"]),
