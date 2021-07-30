@@ -2,20 +2,13 @@
   <v-container>
     <v-row>
       <v-col>
-<v-text-field
-            v-model="search"
-            clearable
-            flat
-            solo-inverted
-            hide-details
-            prepend-inner-icon="mdi-magnify"
-            label="Search by name"
-          ></v-text-field>
+          <input class="input" type="text" v-model="search" @keydown.enter="loadChars">
+          <button class="search-button" @click="loadChars">Search!</button>
       </v-col>
     </v-row>
     
     <v-row>
-      <v-col v-for="(char, index) in filteredChars" :key="index" cols="2.5">
+      <v-col v-for="(char, index) in chars" :key="index" cols="2.5">
         <v-card class="card">
           <v-img
             :src="
@@ -62,8 +55,9 @@ export default {
   },
   methods: {
     async loadChars(pageNumber) {
+      let charURL = (this.search != '') ? `${this.$store.getters.GET_URL}/people?search=${this.search}` : `${this.$store.getters.GET_URL}/people?page=${pageNumber}`;
       this.chars = await fetch(
-        `${this.$store.getters.GET_URL}/people?page=${pageNumber}`
+        charURL
       )
         .then(response => {
           return response.json();
@@ -73,6 +67,8 @@ export default {
             this.totalPages = Math.ceil(
               response.count / response.results.length
             );
+          } else {
+            this.totalPages = 1;
           }
           return response.results;
         });
@@ -86,11 +82,6 @@ export default {
   },
   computed: {
     ...mapGetters(["GET_FAVORITES"]),
-    filteredChars() {
-      return this.chars.filter(char => {
-        return char.name.toLowerCase().includes(this.search.toLowerCase())
-      })
-    }
   },
   created() {
     this.loadChars(this.page);
@@ -107,5 +98,18 @@ export default {
 }
 .card:hover {
   opacity: 0.8;
+}
+.input {
+  outline: none;
+  border: 1px solid #8E8E8E;
+  width: 80%;
+  border-radius: 5px 0 0 5px;
+}
+.search-button {
+  outline: none;
+  background: #bbb;
+  border: 1px solid #bbb;
+  width: 10%;
+  border-radius: 0 5px 5px 0;
 }
 </style>
